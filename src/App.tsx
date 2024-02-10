@@ -8,12 +8,18 @@ import { Slider, Typography } from "@mui/material";
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadError, setUploadError] = useState("");
+  const [experienceLevel, setExperienceLevel] = useState(0);
+  const [summary, setSummary] = useState("");
 
   useEffect(() => {
     if (selectedFile) {
       console.log("Selected file:", selectedFile);
     }
   }, [selectedFile]);
+
+  useEffect(() => {
+    console.log("Experience level:", experienceLevel);
+  }, [experienceLevel]);
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement> | null,
@@ -57,6 +63,7 @@ function App() {
       .then((response) => {
         // Handle response
         console.log(response.data);
+        setSummary(response.data);
         // Reset or clear error message
         setUploadError("");
       })
@@ -130,6 +137,10 @@ function App() {
             marks
             min={0}
             max={100}
+            // invoked when the user drags the thumb
+            onChange={(_, newValue) => setExperienceLevel(newValue)}
+            // invoked when the user drops the thumb
+            onChangeCommitted={(_, newValue) => setExperienceLevel(newValue)}
           />
         </div>
       )}
