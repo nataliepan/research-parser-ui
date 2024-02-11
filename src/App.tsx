@@ -50,8 +50,29 @@ function App() {
       setUploadError("");
       // Assuming 'data' contains necessary information for the request
       // Adjust the URL and payload as needed for your specific endpoint and data structure
-      const queryResponse = await axios.post("api/processQuery", data);
-      console.log("Query processed successfully:", queryResponse.data);
+
+      // Simulate processing delay with setTimeout
+      setTimeout(() => {
+        if (experienceLevel === 0) {
+          setSummary(
+            "Imagine some kids and young people got a special shot to help protect them from getting sick. But, after getting this shot, a few of them felt something weird happening in their hearts, called myocarditis. Scientists did a big project to understand why, looking closely at how their bodies were reacting. They discovered that even though everyone's body was fighting the germs the same way, the kids with the weird heart feeling had something extra floating in their blood that shouldn't be there, which might be why their hearts felt weird.",
+          );
+        } else if (experienceLevel === 50) {
+          setSummary(
+            "This research paper investigates cases of myocarditis in adolescents and young adults following mRNA COVID-19 vaccination. Through comprehensive immunoprofiling, the study found no significant immune response differences between individuals who developed myocarditis and vaccinated controls. However, it identified elevated levels of circulating spike protein unbound by antibodies in patients with myocarditis, providing new insights into its potential underlying cause.",
+          );
+        } else if (experienceLevel === 100) {
+          setSummary(
+            "The study meticulously evaluates myocarditis incidents post-mRNA COVID-19 vaccination in younger cohorts. Utilizing advanced immunoprofiling, it discerns no notable disparities in immune reactions between myocarditis cases and vaccinated counterparts. Crucially, it unveils elevated circulating spike protein levels not neutralized by antibodies in myocarditis subjects, shedding light on potential pathophysiological mechanisms. This observation underscores the necessity for further investigation into spike protein dynamics and its immunological implications in vaccine-induced myocarditis.",
+          );
+        }
+        setSpinner(false);
+        setSelectedFile(null);
+      }, 3000); // Delay in milliseconds
+
+      // Note: The actual API call to process the data would be here
+      // const queryResponse = await axios.post("api/processQuery", data);
+      // console.log("Query processed successfully:", queryResponse.data);
       // Handle successful query processing here, e.g., update state or UI
     } catch (error) {
       setSpinner(false);
@@ -70,15 +91,19 @@ function App() {
     formData.append("myFile", selectedFile, selectedFile.name);
 
     try {
-      const uploadResponse = await axios.post("api/uploadfile", formData);
-      if (uploadResponse.data) {
-        console.log(uploadResponse.data);
-        setSummary(uploadResponse.data);
-        // Call processQuery function with the upload response data
-        await processQuery(uploadResponse.data);
-        // Reset or clear error message
-        setUploadError("");
-      }
+      // const uploadResponse = await axios.post(
+      //   "/api/g/g-yKVz1Fq7X-research-pro",
+      //   formData,
+      // );
+      // if (uploadResponse.data) {
+      //   console.log(uploadResponse.data);
+      //   setSummary(uploadResponse.data);
+      //   // Call processQuery function with the upload response data
+
+      await processQuery("test"); //uploadResponse.data);
+      // Reset or clear error message
+      setUploadError("");
+      // }
     } catch (error) {
       setSpinner(false);
       console.log("ERROR");
